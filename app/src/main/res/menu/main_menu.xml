@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/Home_main"
+            android:title="Tài Khoản"
+            android:icon="@drawable/customer_70px" />
+        <item android:id="@+id/tintuc_main"
+            android:title="Tin Tức"
+            android:icon="@drawable/new_document_70px"/>
+        <item android:id="@+id/QR_main"
+            android:title="QR Scan"
+            android:icon="@drawable/qr_code_70px"/>
+        <item android:id="@+id/About_main"
+            android:title="About"
+            android:icon="@drawable/high_importance_70px"/>
+    </group>
+
+    <item android:title="Hỗ Trợ" >
+        <menu>
+            <item android:id="@+id/sp_ins"
+                android:title="Instagram"
+                android:icon="@drawable/instagram_70px"/>
+            <item android:id="@+id/sp_fb"
+                android:title="Facebook"
+                android:icon="@drawable/facebook_70px"/>
+            <item android:id="@+id/sp_mail"
+                android:title="Gmail"
+                android:icon="@drawable/mail_bulk_70px"/>
+
+        </menu>
+    </item>
+</menu>

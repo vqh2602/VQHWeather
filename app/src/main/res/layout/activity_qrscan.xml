@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QRscanActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView19">
+
+        <!--        <Button-->
+        <!--            android:id="@+id/button2"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:fontFamily="sans-serif-black"-->
+        <!--            android:onClick="newViewBtnClick"-->
+        <!--            android:text="Scan"-->
+        <!--            android:textSize="20sp"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/textView_Qr"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/textView_Qr"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/textView_Qr" />-->
+
+        <TextView
+            android:id="@+id/textView_Qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Nội dung Scan"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="98dp"
+            android:layout_height="95dp"
+            android:background="@color/white"
+            android:onClick="newViewBtnClick"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="@+id/textView_Qr"
+            app:layout_constraintStart_toStartOf="@+id/textView_Qr"
+            app:layout_constraintTop_toBottomOf="@+id/textView_Qr"
+            app:srcCompat="@drawable/qr_code_400px"
+            tools:layout_editor_absoluteX="49dp"
+            tools:layout_editor_absoluteY="108dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Quét mã có hỗ trợ KBYT để KBYT"
+        android:gravity="center"
+        android:textColor="@color/green_2"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imageView19"
+        android:layout_width="200dp"
+        android:layout_height="203dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/codescan" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

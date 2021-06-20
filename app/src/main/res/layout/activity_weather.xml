@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_weather"
+    tools:context=".WeatherActivity"
+    android:id="@+id/layout_weather"
+    tools:ignore="InvalidId">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textViewtemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="0 °"
+        android:textColor="@color/white"
+        android:textSize="100sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewuv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageViewwtid"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageViewwtid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewtemp"
+        app:layout_constraintTop_toBottomOf="@+id/textclock"
+        app:srcCompat="@drawable/sand_timer_50px" />
+
+    <TextView
+        android:id="@+id/textViewcity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="City: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewweatherid"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageViewwtid"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewwtid" />
+
+    <TextView
+        android:id="@+id/textViewwind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Wind speed: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewcity"
+        app:layout_constraintTop_toBottomOf="@+id/textViewcity" />
+
+    <TextView
+        android:id="@+id/textViewhum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Humidity: "
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewwind"
+        app:layout_constraintTop_toBottomOf="@+id/textViewwind" />
+
+    <TextView
+        android:id="@+id/textViewuv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UV: . . ."
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewhum"
+        app:layout_constraintTop_toBottomOf="@+id/textViewhum" />
+
+    <TextView
+        android:id="@+id/textViewweatherid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Loading . . ."
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewwtid"
+        app:layout_constraintStart_toEndOf="@+id/imageViewwtid"
+        app:layout_constraintTop_toTopOf="@+id/imageViewwtid"
+        app:layout_constraintVertical_bias="0.608" />
+
+<!--    <com.tomerrosenfeld.customanalogclockview.CustomAnalogClock-->
+<!--        android:id="@+id/analog_clock"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="112dp"-->
+<!--        app:default_watchface="true"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.497"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewhum"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:format12Hour="yyyy-MM-dd HH:mm:ss"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="InvalidId,MissingConstraints"
+        android:id="@+id/textclock"/>
+
+    <TextView
+        android:id="@+id/textViewrealtemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cảm giác như: . . ."
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/textViewtemp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewtemp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#9E2652"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Thời tiết 24 giờ tới"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <ListView
+                    android:id="@+id/listview_24h"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_black_blur">
+
+                    <ImageView
+                        android:id="@+id/imageView_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/bg_morning" />
+                </ListView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#1875C6"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Thời tiết 7 ngày tới"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <ListView
+                    android:id="@+id/listview_7days"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_black_blur" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
