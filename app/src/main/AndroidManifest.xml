@@ -64,8 +64,6 @@
             android:name="push_kit_auto_init_enabled"
             android:value="true" />
 
-        <activity android:name=".WeatherActivity" >
-        </activity>
         <activity android:name=".QRscanActivity" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".NewsActivity" />

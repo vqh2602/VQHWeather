@@ -16,5 +16,12 @@
     <color name="bg_text_morning">#9E2652</color>
     <color name="bg_text_night">#1875C6</color>
     <color name="bg_text_night_blue">#4F8FC6</color>
+    <color name="bg_text_green">#627523</color>
+    <color name="bg_text_puple">#4549a0</color>
 
+    <color name="statusbar_morning">#f46495</color>
+    <color name="statusbar_night">#352969</color>
+    <color name="statusbar_blue">#165dd9</color>
+    <color name="statusbar_green">#b7bba4</color>
+    <color name="statusbar_puple">#939ebe</color>
 </resources>

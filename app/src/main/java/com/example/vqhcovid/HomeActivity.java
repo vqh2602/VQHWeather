@@ -36,8 +36,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.vqhcovid.API.ApiService;
-import com.example.vqhcovid.Modul.Covid;
 import com.example.vqhcovid.weather.AdapterWeather7;
 import com.example.vqhcovid.weather.Adapterweather24;
 import com.example.vqhcovid.weather.Weather24;
@@ -372,12 +370,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch ( i ) {
             case  1:
                 // nắng ...
-                textViewweatherid.setText("Trời nắng");
+
                 if(checkdaynight()){
+                    textViewweatherid.setText("Trời nắng");
                     imageViewwtid.setAnimation(R.raw.sun);
                     imageViewwtid.playAnimation();
                 }
                 else {
+                    textViewweatherid.setText("Trời trong");
                     imageViewwtid.setAnimation(R.raw.wnight);
                     imageViewwtid.playAnimation();
                 }
@@ -743,7 +743,7 @@ private void getDailyWeather(){
     private void daynightbackground(){
         //backgrounf ngayf / ddeem
         Random rn = new Random();
-        int answer = rn.nextInt(3) + 1;
+        int answer = rn.nextInt(5) + 1;
 //        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 //        String currentTime = new SimpleDateFormat("HH", Locale.getDefault()).format(new Date());
 //        textClock.getFormat12Hour();
@@ -764,17 +764,49 @@ private void getDailyWeather(){
                 imageView_background.setImageResource(R.drawable.bg_morning);
                 textView_7.setBackgroundResource(R.color.bg_text_morning);
                 textView_24.setBackgroundResource(R.color.bg_text_morning);
+                if (Build.VERSION.SDK_INT >= 21) {
+//                    getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_nav)); // Navigation bar the soft bottom
+                    getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbar_morning)); //status bar or the time bar at the top
+                }
                 break;
             case  2:
                 imageView_background.setImageResource(R.drawable.bg_night);
                 textView_7.setBackgroundResource(R.color.bg_text_night);
                 textView_24.setBackgroundResource(R.color.bg_text_night);
+                if (Build.VERSION.SDK_INT >= 21) {
+//                    getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_nav)); // Navigation bar the soft bottom
+                    getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbar_night)); //status bar or the time bar at the top
+                }
                 break;
             case  3:
                 // nhieu mây ...
                 imageView_background.setImageResource(R.drawable.bg_weather);
                 textView_7.setBackgroundResource(R.color.bg_text_night_blue);
                 textView_24.setBackgroundResource(R.color.bg_text_night_blue);
+                if (Build.VERSION.SDK_INT >= 21) {
+//                    getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_nav)); // Navigation bar the soft bottom
+                    getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbar_blue)); //status bar or the time bar at the top
+                }
+                break;
+            case  4:
+                // nhieu mây ...
+                imageView_background.setImageResource(R.drawable.bg_green_flower);
+                textView_7.setBackgroundResource(R.color.bg_text_green);
+                textView_24.setBackgroundResource(R.color.bg_text_green);
+                if (Build.VERSION.SDK_INT >= 21) {
+//                    getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_nav)); // Navigation bar the soft bottom
+                    getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbar_green)); //status bar or the time bar at the top
+                }
+                break;
+            case  5:
+                // nhieu mây ...
+                imageView_background.setImageResource(R.drawable.bg_puper_flower);
+                textView_7.setBackgroundResource(R.color.bg_text_puple);
+                textView_24.setBackgroundResource(R.color.bg_text_puple);
+                if (Build.VERSION.SDK_INT >= 21) {
+//                    getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.dark_nav)); // Navigation bar the soft bottom
+                    getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.statusbar_puple)); //status bar or the time bar at the top
+                }
                 break;
             default:
                 // Làm gì đó tại đây ...
