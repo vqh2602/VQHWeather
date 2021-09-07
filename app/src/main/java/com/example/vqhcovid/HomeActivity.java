@@ -14,12 +14,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +25,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -41,10 +36,10 @@ import com.example.vqhcovid.weather.Adapterweather24;
 import com.example.vqhcovid.weather.Weather24;
 import com.example.vqhcovid.weather.Weather7;
 import com.google.android.material.navigation.NavigationView;
-import com.huawei.hmf.tasks.OnCompleteListener;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.common.ApiException;
 import com.huawei.hms.kit.awareness.Awareness;
 import com.huawei.hms.kit.awareness.capture.WeatherStatusResponse;
 import com.huawei.hms.kit.awareness.status.WeatherStatus;
@@ -55,6 +50,7 @@ import com.huawei.hms.kit.awareness.status.weather.WeatherSituation;
 import com.huawei.hms.support.account.AccountAuthManager;
 import com.huawei.hms.support.account.request.AccountAuthParams;
 import com.huawei.hms.support.account.request.AccountAuthParamsHelper;
+import com.huawei.hms.support.account.result.AuthAccount;
 import com.huawei.hms.support.account.service.AccountAuthService;
 
 import java.text.SimpleDateFormat;
@@ -63,10 +59,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.example.vqhcovid.R.drawable.ic_toolbar_menu_white;
 
@@ -78,7 +70,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    String displayname_check ="",fullname,disname,imgurl;
+    String displayname_check ="",skip ="",fullname,disname,imgurl;
 
 
 
@@ -107,6 +99,53 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         anhxa();
         actionToolBar();
 
+        // check ddang nhap
+        AccountAuthParams authParams = new AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).createParams();
+        AccountAuthService service = AccountAuthManager.getService(HomeActivity.this, authParams);
+        Task<AuthAccount> task = service.silentSignIn();
+
+        task.addOnSuccessListener(new OnSuccessListener<AuthAccount>() {
+            @Override
+            public void onSuccess(AuthAccount authAccount) {
+                // Obtain the user's ID information.
+                Log.i(TAG, "displayName:" + authAccount.getDisplayName());
+                // Obtain the ID type (0: HUAWEI ID; 1: AppTouch ID).
+                Log.i(TAG, "accountFlag:" + authAccount.getAccountFlag());
+                dulieuinten(authAccount);
+
+        fullname = authAccount.getFamilyName ()+" " + authAccount.getGivenName();
+        imgurl = authAccount.getAvatarUriString();
+        disname =  authAccount.getDisplayName();
+        displayname_check="ok";
+            }
+        });
+
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                // The sign-in failed. Try to sign in explicitly using getSignInIntent().
+                if (e instanceof ApiException) {
+                    ApiException apiException = (ApiException) e;
+                    Log.i(TAG, "sign failed status:" + apiException.getStatusCode());
+                    Toast.makeText(HomeActivity.this,"Ban chua dang nhap",Toast.LENGTH_LONG).show();
+
+                    displayname_check = "";
+                    Intent intent = getIntent();
+                    skip =intent.getStringExtra("skip");
+                    Log.i(TAG, "displayNameskip:" + skip);
+                    if(skip == null) {
+                        Intent intent1 = new Intent(HomeActivity.this,LoginActivity.class);
+                        startActivity(intent1);
+                        finish();
+                    }
+
+                }
+            }
+        });
+
+
+
+
         //khi click vo list se doi mau
         navigationView.bringToFront();
         // hieejn tool bar
@@ -114,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
 
         toggle.syncState();
-//đặt sau syncstate mới hd.-> set icon toolbar moi co thể thay đôi đc icon và màu
+        //đặt sau syncstate mới hd.-> set icon toolbar moi co thể thay đôi đc icon và màu
         toolbar.setNavigationIcon(ic_toolbar_menu_white);
 
 
@@ -122,7 +161,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        dulieuinten();
+
 
         daynightbackground();
 
@@ -277,16 +316,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //check du lieu intent
-    private void dulieuinten(){
-        Intent intent = getIntent();
-        String displayname = intent.getStringExtra("Displayname");
-        fullname = intent.getStringExtra("fullname");
-        imgurl = intent.getStringExtra("Imangeurl");
-        disname =  intent.getStringExtra("Displayname");
-        displayname_check = displayname;
+    private void dulieuinten(AuthAccount authAccount){
+//        Intent intent = getIntent();
+//        String displayname = intent.getStringExtra("Displayname");
+//        fullname = intent.getStringExtra("fullname");
+//        imgurl = intent.getStringExtra("Imangeurl");
+//        disname =  intent.getStringExtra("Displayname");
+
             //check
-            if(displayname_check != null){
-                Toast.makeText(HomeActivity.this,"Xin Chào: "+displayname,Toast.LENGTH_LONG).show();
+            if(authAccount.getDisplayName() != null){
+                Toast.makeText(HomeActivity.this,"Xin Chào: "+authAccount.getDisplayName(),Toast.LENGTH_LONG).show();
 
             }
             else {
@@ -331,7 +370,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 buildAlertMessageNoGps();
                 // khoi dong lại intent
-                resetintent();
+                //resetintent();
 
             }
         }
@@ -524,18 +563,18 @@ private void getnowweather(){
                     WeatherSituation weatherSituation = weatherStatus.getWeatherSituation();
                     Situation situation = weatherSituation.getSituation();
                     // For more weather information, please refer to the API Reference of Awareness Kit.
-//                    String weatherInfoStr = "City:" + weatherSituation.getCity().getName() + "\n" +
-//                            "Weather id is " + situation.getWeatherId() + "\n" +
-//                            "CN Weather id is " + situation.getCnWeatherId() + "\n" +
-//                            "Temperature is " + situation.getTemperatureC() + "℃" +
-//                            "," + situation.getTemperatureF() + "℉" + "\n" +
-//                            "Wind speed is " + situation.getWindSpeed() + "km/h" + "\n" +
-//                            "Wind direction is " + situation.getWindDir() + "\n" +
-//                            "Humidity is " + situation.getHumidity() + "%" +"\n"+
-//                            "Readfeel is " +situation.getRealFeelC() + "\n"+
-//                            "Uv is " +situation.getUvIndex() + "\n" +
-//                            "Update is " +situation.getUpdateTime() + "\n";
-//                    Log.i(TAG, weatherInfoStr);
+                    String weatherInfoStr = "City:" + weatherSituation.getCity().getName() + "\n" +
+                            "Weather id is " + situation.getWeatherId() + "\n" +
+                            "CN Weather id is " + situation.getCnWeatherId() + "\n" +
+                            "Temperature is " + situation.getTemperatureC() + "℃" +
+                            "," + situation.getTemperatureF() + "℉" + "\n" +
+                            "Wind speed is " + situation.getWindSpeed() + "km/h" + "\n" +
+                            "Wind direction is " + situation.getWindDir() + "\n" +
+                            "Humidity is " + situation.getHumidity() + "%" +"\n"+
+                            "Readfeel is " +situation.getRealFeelC() + "\n"+
+                            "Uv is " +situation.getUvIndex() + "\n" +
+                            "Update is " +situation.getUpdateTime() + "\n";
+                    Log.i(TAG, weatherInfoStr);
 
 
                     // xuwr lis dl

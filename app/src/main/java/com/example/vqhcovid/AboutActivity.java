@@ -27,18 +27,6 @@ public class AboutActivity extends AppCompatActivity {
         GoToURL("https://vqhcovid.herokuapp.com/");
     }
 
-    public void onClickatcv(View v) {
-        GoToURL("https://antoancovid.vn/");
-    }
-    public void onClickbyt(View v) {
-        GoToURL("https://ncov.moh.gov.vn/");
-    }
-    public void onClickvtc(View v) {
-        GoToURL("https://vtc.vn/");
-    }
-    public void onClickapi(View v) {
-        GoToURL("https://disease.sh/");
-    }
 
     private void GoToURL(String url) {
         Uri uri = Uri.parse(url);

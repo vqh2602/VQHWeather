@@ -12,7 +12,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.huawei.hmf.tasks.OnFailureListener;
+import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.common.ApiException;
 import com.huawei.hms.support.account.AccountAuthManager;
@@ -35,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
             Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+        // check ddang nhap
+
 
         imageButton_Login = findViewById(R.id.imageButton_Login);
         button_skip = findViewById(R.id.button_skip);
@@ -42,15 +47,49 @@ public class LoginActivity extends AppCompatActivity {
         imageButton_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AccountAuthParams authParams = new AccountAuthParamsHelper
-//                        (AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setAuthorizationCode().createParams();
-//                AccountAuthService service = AccountAuthManager.getService(LoginActivity.this, authParams);
-//                startActivityForResult(service.getSignInIntent(), 8888);
+
+
+//        AccountAuthParams authParams = new AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).createParams();
+//        AccountAuthService service = AccountAuthManager.getService(LoginActivity.this, authParams);
+//                Task<AuthAccount> task = service.silentSignIn();
+
+//                task.addOnSuccessListener(new OnSuccessListener<AuthAccount>() {
+//                    @Override
+//                    public void onSuccess(AuthAccount authAccount) {
+//                        // Obtain the user's ID information.
+//                        Log.i("a", "displayName:" + authAccount.getDisplayName());
+//                        // Obtain the ID type (0: HUAWEI ID; 1: AppTouch ID).
+//                        Log.i("a", "accountFlag:" + authAccount.getAccountFlag());
+//
+//                        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//
+//                    }
+//                });
+//
+//                task.addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(Exception e) {
+//                        // The sign-in failed. Try to sign in explicitly using getSignInIntent().
+//                        if (e instanceof ApiException) {
+//                            ApiException apiException = (ApiException) e;
+//                            Log.i("lgfaile", "sign failed status:" + apiException.getStatusCode());
+//                            Toast.makeText(LoginActivity.this,"loi dang nhap",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+
 
                 AccountAuthParams authParams = new AccountAuthParamsHelper
-                        (AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setEmail().setProfile().setIdToken().setMobileNumber().createParams();
+                        (AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setAuthorizationCode().createParams();
                 AccountAuthService service = AccountAuthManager.getService(LoginActivity.this, authParams);
                 startActivityForResult(service.getSignInIntent(), 8888);
+
+//                AccountAuthParams authParams = new AccountAuthParamsHelper
+//                        (AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setEmail().setProfile().setIdToken().setMobileNumber().createParams();
+//                AccountAuthService service = AccountAuthManager.getService(LoginActivity.this, authParams);
+//                startActivityForResult(service.getSignInIntent(), 8888);
             }
         });
 
@@ -58,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+                intent.putExtra("skip", "skip");
                 startActivity(intent);
                 finish();
             }

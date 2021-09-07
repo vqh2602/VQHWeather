@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,15 +19,13 @@ import android.widget.Toast;
 
 import com.huawei.hmf.tasks.OnCompleteListener;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.common.ApiException;
 import com.huawei.hms.support.account.AccountAuthManager;
 import com.huawei.hms.support.account.request.AccountAuthParams;
 import com.huawei.hms.support.account.request.AccountAuthParamsHelper;
 import com.huawei.hms.support.account.service.AccountAuthService;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -69,6 +66,8 @@ public class AccountActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+                    // xoá các activity trong stack
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
@@ -122,8 +121,39 @@ public class AccountActivity extends AppCompatActivity {
     }
 
 
-    //logout
+    //logout thu hồi uỷ quyền
     private void logout(){
+        AccountAuthParams authParams = new AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).createParams();
+        AccountAuthService service = AccountAuthManager.getService(AccountActivity.this, authParams);
+        // service indicates the AccountAuthService instance generated using the getService method during the sign-in authorization.
+        service.cancelAuthorization().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(Task<Void> task) {
+                if (task.isSuccessful()) {
+//                    // Processing after a successful authorization cancellation.
+//                    Log.i(TAG, "onSuccess: ");
+                    Toast.makeText(AccountActivity.this,"Đã Đăng Xuất" ,Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+                    // xoá các activity trong stack
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Handle the exception.
+                    Exception exception = task.getException();
+                    if (exception instanceof ApiException){
+                        int statusCode = ((ApiException) exception).getStatusCode();
+//                        Log.i(TAG, "onFailure: " + statusCode);
+                        Toast.makeText(AccountActivity.this,"Khong the Đăng Xuất" ,Toast.LENGTH_LONG).show();
+//                        Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+//                        startActivity(intent);
+//                        finish();
+                    }
+                }
+            }
+        });
+
         // tạo servier
         mAuthParam = new AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM)
                 .setIdToken()
@@ -138,9 +168,11 @@ public class AccountActivity extends AppCompatActivity {
                 //Processing after the sign-out.
                 Log.i("MainActivitylogout", "signOut complete");
                 Toast.makeText(AccountActivity.this,"Đã Đăng Xuất" ,Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+//                // xoá các activity trong stack
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//                finish();
             }
         });
     }

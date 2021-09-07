@@ -1,6 +1,5 @@
 package com.example.vqhcovid;
 
-import android.app.Service;
 import android.util.Log;
 
 import com.huawei.hms.push.RemoteMessage;

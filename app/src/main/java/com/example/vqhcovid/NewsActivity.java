@@ -28,7 +28,6 @@ public class NewsActivity extends AppCompatActivity {
     ListView lvNews;
     NewsAdapter newsAdapter;
     ArrayList<News> lsNews;
-    ArrayList<String> lsTitle, lsLink, lsImgLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

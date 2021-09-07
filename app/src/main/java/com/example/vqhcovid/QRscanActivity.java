@@ -31,6 +31,7 @@ public class QRscanActivity extends AppCompatActivity {
 
         textView_Qr = findViewById(R.id.textView_Qr);
     }
+
     public void newViewBtnClick(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.requestPermissions(
