@@ -146,14 +146,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        //khi click vo list se doi mau
+        //
         navigationView.bringToFront();
         // hieejn tool bar
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_toolbar, R.string.close_toolbar);
         drawerLayout.addDrawerListener(toggle);
 
         toggle.syncState();
-        //đặt sau syncstate mới hd.-> set icon toolbar moi co thể thay đôi đc icon và màu
+        //thể thay đôi đc icon và màu
         toolbar.setNavigationIcon(ic_toolbar_menu_white);
 
 
