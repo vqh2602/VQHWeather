@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -127,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (e instanceof ApiException) {
                     ApiException apiException = (ApiException) e;
                     Log.i(TAG, "sign failed status:" + apiException.getStatusCode());
-                    Toast.makeText(HomeActivity.this,"Ban chua dang nhap",Toast.LENGTH_LONG).show();
+                    Toast.makeText(HomeActivity.this,"Bạn chưa đăng nhập",Toast.LENGTH_LONG).show();
 
                     displayname_check = "";
                     Intent intent = getIntent();
@@ -204,6 +205,50 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         },5000);
 
+        // xử lí kéo listview chồng lên scollview
+        listview_24h.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+        listview_7day.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+
     }
 
 
@@ -254,6 +299,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         imageView_background = findViewById(R.id.imageView_background);
         textView_7 = findViewById(R.id.textView_7);
         textView_24 = findViewById(R.id.textView_24);
+        listview_24h = findViewById(R.id.listview_24h);
+        listview_7day = findViewById(R.id.listview_7days);
 //        listView = (ListView) findViewById(R.id.listview_menu);
     }
 
@@ -711,14 +758,14 @@ private void getDailyWeather(){
 
 //set adapter 24h
     private  void set24hourweather(){
-        listview_24h = findViewById(R.id.listview_24h);
+
         list_24h = new ArrayList<Weather24>();
 
         Adapterweather24 = new Adapterweather24(HomeActivity.this, android.R.layout.simple_list_item_1, list_24h);
         listview_24h.setAdapter(Adapterweather24);
     }
     private  void set7daysweather(){
-        listview_7day = findViewById(R.id.listview_7days);
+
         list_7days = new ArrayList<Weather7>();
 
         adapterWeather7 = new AdapterWeather7(HomeActivity.this, android.R.layout.simple_list_item_1, list_7days);
@@ -866,4 +913,6 @@ private void getDailyWeather(){
             return  false;
         }
     }
+
+
 }

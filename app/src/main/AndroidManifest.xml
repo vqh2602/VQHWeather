@@ -32,7 +32,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_weather_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.VQHCovid"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory" >
         <activity android:name="com.example.vqhcovid.AboutActivity" >
@@ -66,7 +66,9 @@
         <activity android:name="com.example.vqhcovid.NewsActivity" />
         <activity android:name="com.example.vqhcovid.LoginActivity" />
         <activity android:name="com.example.vqhcovid.WebviewActivity" />
-        <activity android:name="com.example.vqhcovid.HomeActivity" />
+        <activity android:name="com.example.vqhcovid.HomeActivity"
+            android:theme="@style/Theme.VQHCovid.NoActionBar">
+        </activity>
         <activity android:name="com.example.vqhcovid.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

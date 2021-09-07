@@ -132,7 +132,7 @@ public class AccountActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
 //                    // Processing after a successful authorization cancellation.
 //                    Log.i(TAG, "onSuccess: ");
-                    Toast.makeText(AccountActivity.this,"Đã Đăng Xuất" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(AccountActivity.this,"Đã Huỷ Uỷ Quyền" ,Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
                     // xoá các activity trong stack
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -145,7 +145,7 @@ public class AccountActivity extends AppCompatActivity {
                     if (exception instanceof ApiException){
                         int statusCode = ((ApiException) exception).getStatusCode();
 //                        Log.i(TAG, "onFailure: " + statusCode);
-                        Toast.makeText(AccountActivity.this,"Khong the Đăng Xuất" ,Toast.LENGTH_LONG).show();
+                        Toast.makeText(AccountActivity.this,"Lỗi Đăng Xuất" ,Toast.LENGTH_LONG).show();
 //                        Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
 //                        startActivity(intent);
 //                        finish();

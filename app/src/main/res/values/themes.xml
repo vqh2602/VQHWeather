@@ -16,4 +16,11 @@
         <!-- Customize your theme here. -->
 
     </style>
+
+    **  <style name="Theme.VQHCovid.NoActionBar">
+
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+</style>
+    **
 </resources>
