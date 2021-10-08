@@ -11,7 +11,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 3
-        versionName "1.1.4"
+        versionName "1.1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -19,7 +19,7 @@ android {
 
     signingConfigs {
         config {
-            storeFile file('D:/Coding/VQHWeather/keystore/vqh_keystore')
+            storeFile file('D:/Du Lieu/project android/VQHWeather/keystore')
             storePassword 'vuongquanghuy'
             keyPassword 'vuongquanghuy'
             keyAlias 'vqh_alias'

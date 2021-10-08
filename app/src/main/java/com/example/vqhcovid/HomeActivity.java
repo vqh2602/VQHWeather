@@ -4,14 +4,25 @@ import static com.example.vqhcovid.R.drawable.ic_toolbar_menu_white;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.Icon;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,6 +39,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -64,6 +76,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private final String accessFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
     private final String accessCoarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String CHANNEL_ID ="" ;
+    private static final int NOTIFICATION_ID =0 ;
+
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -88,6 +103,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     int imageUrl;
     private final int permissionRequestCode = 9999;
 
+    Handler handler = new Handler();
+    Runnable refresh ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +121,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         authenticationChecking();
 
         activities();
+
+
+        // reset dữ liệu 15p / lần
+
+        refresh = new Runnable() {
+            public void run() {
+                // Do something
+                handler.postDelayed(refresh, 900000);
+            }
+        };
+        handler.post(refresh);
+
     }
+
+
+
+
+
+
+
 
     private void activities() {
         //FIXME add this into the thread when loading
@@ -134,10 +171,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             getCurrentWeather();
 
-            getHourlyWeather();
+//            getHourlyWeather();
 
             //FIXME this handler will dead in background mode. Fix it by using service, rx or do in Activity Life Cycle
-            new Handler().postDelayed(this::getDailyWeather, 5000);
+            new Handler().postDelayed(this::getHourlyWeather, 2000);
+            new Handler().postDelayed(this::getDailyWeather, 4000);
         }
     }
 
@@ -583,6 +621,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     textViewwind.setText(wind);
                     textViewtemp.setText(temp);
                     textViewrealtemp.setText(realtemp);
+
+                    //set statusbar
+                    displayNotification(temp,city,"Feel like: "+situation.getRealFeelC()+"°"
+                            +"  | Wind: "+situation.getWindSpeed() + " km/h"
+                            +"  | Humidity: "+situation.getHumidity() + " %");
+
                 })
                 // Callback listener for execution failure.
                 .addOnFailureListener(e -> Log.e(TAG, "get weather failed: " + e.getLocalizedMessage()));
@@ -685,7 +729,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 .append("\n").append("Night Wind Speed: ")
                                 .append(dailyWeather.get(i).getSituationNight().getWindSpeed())
                                 .append("\n\n");
-                        //xửa lí adapter7
+//                        xửa lí adapter7
                         String date = "Date: " + dateFormat.format(dailyWeather.get(i).getDateTimeStamp());
 
                         String min = "Min: " + dailyWeather.get(i).getMinTempC() + " °C";
@@ -696,7 +740,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         int id = getIdWeather(dailyWeather.get(i).getSituationDay().getWeatherId());
                         setImageWeather7days(id);
 
-
+Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
                         list_7days.add(new Weather7(date, troi, min, max, sunset, sunrise, imageUrl));
 
                     }
@@ -840,4 +884,75 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Log.i("clock1", currentTime + "\n");
         return Integer.parseInt(currentTime) < 18;
     }
+
+
+// set statusbar
+
+    public void displayNotification(String text,String city,String weather) {
+
+        Notification.Builder builder = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            builder = new Notification.Builder(this, CHANNEL_ID);
+        }
+
+        //convert text to bitmap
+        Bitmap bitmap = createBitmapFromString(text.trim());
+
+        //setting bitmap to staus bar icon.
+        builder.setSmallIcon(Icon.createWithBitmap(bitmap));
+
+        builder.setContentTitle(city);
+        builder.setContentText(weather);
+        builder.setPriority(Notification.PRIORITY_MAX);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+        createNotificationChannel();
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Thông báo thời tiết";
+            String description = " notification";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.setSound(null,null);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private Bitmap createBitmapFromString(String inputNumber) {
+
+//        Paint paint = new Paint();
+//        paint.setAntiAlias(true);
+//        paint.setTextSize(50);
+//        paint.setTextAlign(Paint.Align.CENTER);
+
+        TextPaint textPaint = new TextPaint();
+        textPaint.setTextSize(50);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTypeface(Typeface.create("Arial", Typeface.BOLD));
+
+        Rect textBounds = new Rect();
+        textPaint.getTextBounds(inputNumber, 0, inputNumber.length(), textBounds);
+
+        Bitmap bitmap = Bitmap.createBitmap(textBounds.width() + 15, 90,
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawText(inputNumber, textBounds.width() / 2 + 10, 70, textPaint);
+        return bitmap;
+    }
+
+
+
+
+
 }
