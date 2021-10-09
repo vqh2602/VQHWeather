@@ -76,8 +76,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private final String accessFineLocation = Manifest.permission.ACCESS_FINE_LOCATION;
     private final String accessCoarseLocation = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final String CHANNEL_ID ="" ;
-    private static final int NOTIFICATION_ID =0 ;
+    private static final String CHANNEL_ID = "";
+    private static final int NOTIFICATION_ID = 0;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -103,7 +103,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     int imageUrl;
     private final int permissionRequestCode = 9999;
 
-    Handler mHandler;
+Handler handler = new Handler();
+    Runnable refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,12 +143,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     };
 
-
-
-
-
-
-
     private void activities() {
         //FIXME add this into the thread when loading
         Toast.makeText(HomeActivity.this, "Đang tải dữ liệu . . .", Toast.LENGTH_LONG).show();
@@ -156,11 +151,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             // You can use the API that requires the permission.
             startGetWeathers();
         } else if (shouldShowRequestPermissionRationale(accessFineLocation)) {
-           //TODO show UI to ask permission again
-        } else if (shouldShowRequestPermissionRationale(accessCoarseLocation)){
             //TODO show UI to ask permission again
-        }
-        else {
+        } else if (shouldShowRequestPermissionRationale(accessCoarseLocation)) {
+            //TODO show UI to ask permission again
+        } else {
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{
@@ -189,7 +183,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == permissionRequestCode) {
-            if (grantResults.length > 0 && Arrays.stream(grantResults).allMatch(i -> i == PackageManager.PERMISSION_GRANTED)){
+            if (grantResults.length > 0 && Arrays.stream(grantResults).allMatch(i -> i == PackageManager.PERMISSION_GRANTED)) {
                 startGetWeathers();
             }
         }
@@ -596,42 +590,46 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Awareness.getCaptureClient(this).getWeatherByDevice()
                 // Callback listener for execution success.
                 .addOnSuccessListener(weatherStatusResponse -> {
-                    WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
-                    WeatherSituation weatherSituation = weatherStatus.getWeatherSituation();
-                    Situation situation = weatherSituation.getSituation();
-                    // For more weather information, please refer to the API Reference of Awareness Kit.
-                    String weatherInfoStr = "City:" + weatherSituation.getCity().getName() + "\n" +
-                            "Weather id is " + situation.getWeatherId() + "\n" +
-                            "CN Weather id is " + situation.getCnWeatherId() + "\n" +
-                            "Temperature is " + situation.getTemperatureC() + "℃" +
-                            "," + situation.getTemperatureF() + "℉" + "\n" +
-                            "Wind speed is " + situation.getWindSpeed() + "km/h" + "\n" +
-                            "Wind direction is " + situation.getWindDir() + "\n" +
-                            "Humidity is " + situation.getHumidity() + "%" + "\n" +
-                            "Readfeel is " + situation.getRealFeelC() + "\n" +
-                            "Uv is " + situation.getUvIndex() + "\n" +
-                            "Update is " + situation.getUpdateTime() + "\n";
-                    Log.i(TAG, weatherInfoStr);
+                    try {
+                        WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
+                        WeatherSituation weatherSituation = weatherStatus.getWeatherSituation();
+                        Situation situation = weatherSituation.getSituation();
+                        // For more weather information, please refer to the API Reference of Awareness Kit.
+                        String weatherInfoStr = "City:" + weatherSituation.getCity().getName() + "\n" +
+                                "Weather id is " + situation.getWeatherId() + "\n" +
+                                "CN Weather id is " + situation.getCnWeatherId() + "\n" +
+                                "Temperature is " + situation.getTemperatureC() + "℃" +
+                                "," + situation.getTemperatureF() + "℉" + "\n" +
+                                "Wind speed is " + situation.getWindSpeed() + "km/h" + "\n" +
+                                "Wind direction is " + situation.getWindDir() + "\n" +
+                                "Humidity is " + situation.getHumidity() + "%" + "\n" +
+                                "Readfeel is " + situation.getRealFeelC() + "\n" +
+                                "Uv is " + situation.getUvIndex() + "\n" +
+                                "Update is " + situation.getUpdateTime() + "\n";
+                        Log.i(TAG, weatherInfoStr);
 
 
-                    // xuwr lis dl
-                    setImageWeather(getIdWeather(situation.getWeatherId()));
-                    setUV(situation.getUvIndex());
-                    String city = "City: " + weatherSituation.getCity().getName();
-                    String hum = "Humidity: " + situation.getHumidity() + " %";
-                    String wind = "Wind speed: " + situation.getWindSpeed() + " km/h";
-                    String temp = situation.getTemperatureC() + "°";
-                    String realtemp = "Cảm giác như: " + situation.getRealFeelC() + "°";
-                    textViewcity.setText(city);
-                    textViewhum.setText(hum);
-                    textViewwind.setText(wind);
-                    textViewtemp.setText(temp);
-                    textViewrealtemp.setText(realtemp);
+                        // xuwr lis dl
+                        setImageWeather(getIdWeather(situation.getWeatherId()));
+                        setUV(situation.getUvIndex());
+                        String city = "City: " + weatherSituation.getCity().getName();
+                        String hum = "Humidity: " + situation.getHumidity() + " %";
+                        String wind = "Wind speed: " + situation.getWindSpeed() + " km/h";
+                        String temp = situation.getTemperatureC() + "°";
+                        String realtemp = "Cảm giác như: " + situation.getRealFeelC() + "°";
+                        textViewcity.setText(city);
+                        textViewhum.setText(hum);
+                        textViewwind.setText(wind);
+                        textViewtemp.setText(temp);
+                        textViewrealtemp.setText(realtemp);
 
-                    //set statusbar
-                    displayNotification(temp,city,"Feel like: "+situation.getRealFeelC()+"°"
-                            +"  | Wind: "+situation.getWindSpeed() + " km/h"
-                            +"  | Humidity: "+situation.getHumidity() + " %");
+                        //set statusbar
+                        displayNotification(temp, city, "Feel like: " + situation.getRealFeelC() + "°"
+                                + "  | Wind: " + situation.getWindSpeed() + " km/h"
+                                + "  | Humidity: " + situation.getHumidity() + " %");
+                    } catch (Exception e) {
+                        Log.e("HomeActivity", e.getLocalizedMessage());
+                    }
 
                 })
                 // Callback listener for execution failure.
@@ -642,37 +640,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void getHourlyWeather() {
         Awareness.getCaptureClient(this).getWeatherByDevice()
                 .addOnSuccessListener(weatherStatusResponse -> {
-                    WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
-                    List<HourlyWeather> hourlyWeather = weatherStatus.getHourlyWeather();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
-                    String weather_info_hours = "";
-                    for (int i = 0; i <= 24; i++) {
+                    try {
+                        WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
+                        List<HourlyWeather> hourlyWeather = weatherStatus.getHourlyWeather();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+                        String weather_info_hours = "";
+                        for (int i = 0; i <= hourlyWeather.size(); i++) {
 
-//                            weather_info_hours+= dateFormat.format(hourlyWeather.get(i).getDateTimeStamp()) +" - "+
-//                                    (hourlyWeather.get(i).isDayNight() ? "Day" : "Night")+"\n"+
-//                                    "Temperature: " + hourlyWeather.get(i).getTempC() + "°C / "+hourlyWeather.get(i).getTempF() +"°F \n"+
-//                                    "Rain Probability: " + (hourlyWeather.get(i).getRainprobability()<50?"Low":(hourlyWeather.get(i).getRainprobability()<75?"Medium":"High"))+"\n"+
-//                                    "Rain Probability: " + hourlyWeather.get(i).getRainprobability()+"\n"+
-//                                    "Weather Id: " +hourlyWeather.get(i).getWeatherId()+"\n\n";
+                            //xửa lí adapter24
+                            String time = "Time: " + dateFormat.format(hourlyWeather.get(i).getDateTimeStamp());
+                            String dayNight = hourlyWeather.get(i).isDayNight() ? "Day" : "Night";
+                            String temp = "Nhiệt độ: " + hourlyWeather.get(i).getTempC() + " °C";
+                            String rain = "Tỷ lệ mưa: " + hourlyWeather.get(i).getRainprobability() + " %";
+                            int urlImage;
+                            if (hourlyWeather.get(i).isDayNight()) {
+                                urlImage = R.raw.day;
+                            } else {
+                                urlImage = R.raw.night;
+                            }
 
-                        //xửa lí adapter24
-                        String time = "Time: " + dateFormat.format(hourlyWeather.get(i).getDateTimeStamp());
-                        String dayNight = hourlyWeather.get(i).isDayNight() ? "Day" : "Night";
-                        String temp = "Nhiệt độ: " + hourlyWeather.get(i).getTempC() + " °C";
-                        String rain = "Tỷ lệ mưa: " + hourlyWeather.get(i).getRainprobability() + " %";
-                        int urlImage;
-                        if (hourlyWeather.get(i).isDayNight()) {
-                            urlImage = R.raw.day;
-                        } else {
-                            urlImage = R.raw.night;
+                            list_24h.add(new Weather24(time, dayNight, temp, rain, urlImage));
+
                         }
+                        Adapterweather24.notifyDataSetChanged();
 
-                        list_24h.add(new Weather24(time, dayNight, temp, rain, urlImage));
-
+                        Log.i("hour", weather_info_hours);
+                    } catch (Exception e) {
+                        Log.e("HomeActivity", e.getLocalizedMessage());
                     }
-                    Adapterweather24.notifyDataSetChanged();
-
-                    Log.i("hour", weather_info_hours);
 
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "get Hourly weather failed"));
@@ -682,76 +677,79 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void getDailyWeather() {
         Awareness.getCaptureClient(this).getWeatherByDevice()
                 .addOnSuccessListener(weatherStatusResponse -> {
-
-                    WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
-                    List<DailyWeather> dailyWeather = weatherStatus.getDailyWeather();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy ", Locale.getDefault());
-                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss ", Locale.getDefault());
-                    StringBuilder daily_info = new StringBuilder();
-                    for (int i = 0; i < 7; i++) {
-                        //FIXME string concat in loop
-                        daily_info
-                                .append("Date: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getDateTimeStamp()))
-                                .append("\n")
-                                .append("Sun Rise: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getSunRise()))
-                                .append("\n")
-                                .append("Sun Set: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getSunSet()))
-                                .append("\n")
-                                .append("Moon Set: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getMoonSet()))
-                                .append("\n").append("Moon Rise: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getMoonRise()))
-                                .append("\n").append("Moon Phase: ")
-                                .append(dailyWeather.get(i).getMoonphase())
-                                .append("\n")
-                                .append("Aqi Value: ")
-                                .append(dailyWeather.get(i).getAqiValue())
-                                .append("\n")
-                                .append("Temperature Max: ")
-                                .append(dailyWeather.get(i).getMaxTempC())
-                                .append("°C / ")
-                                .append(dailyWeather.get(i).getMaxTempF())
-                                .append("°F \n")
-                                .append("Temperature Min: ")
-                                .append(dailyWeather.get(i).getMinTempC())
-                                .append("°C / ").append(dailyWeather.get(i).getMinTempF())
-                                .append("°F \n").append("Day Weather Id: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWeatherId())
-                                .append("\n").append("Night Weather Id: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWeatherId())
-                                .append("\n").append("Day Wind Direction: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindDir())
-                                .append("\n").append("Night Wind Direction: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindDir())
-                                .append("\n").append("Day Wind Level: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindLevel())
-                                .append("\n").append("Night Wind Level: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindLevel())
-                                .append("\n").append("Day Wind Speed: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindSpeed())
-                                .append("\n").append("Night Wind Speed: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindSpeed())
-                                .append("\n\n");
+                    try {
+                        WeatherStatus weatherStatus = weatherStatusResponse.getWeatherStatus();
+                        List<DailyWeather> dailyWeather = weatherStatus.getDailyWeather();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy ", Locale.getDefault());
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss ", Locale.getDefault());
+                        StringBuilder dailyInfoStringBuilder = new StringBuilder();
+                        for (int i = 0; i < dailyWeather.size(); i++) {
+                            //FIXME string concat in loop
+                            dailyInfoStringBuilder
+                                    .append("Date: ")
+                                    .append(dateFormat.format(dailyWeather.get(i).getDateTimeStamp()))
+                                    .append("\n")
+                                    .append("Sun Rise: ")
+                                    .append(dateFormat.format(dailyWeather.get(i).getSunRise()))
+                                    .append("\n")
+                                    .append("Sun Set: ")
+                                    .append(dateFormat.format(dailyWeather.get(i).getSunSet()))
+                                    .append("\n")
+                                    .append("Moon Set: ")
+                                    .append(dateFormat.format(dailyWeather.get(i).getMoonSet()))
+                                    .append("\n").append("Moon Rise: ")
+                                    .append(dateFormat.format(dailyWeather.get(i).getMoonRise()))
+                                    .append("\n").append("Moon Phase: ")
+                                    .append(dailyWeather.get(i).getMoonphase())
+                                    .append("\n")
+                                    .append("Aqi Value: ")
+                                    .append(dailyWeather.get(i).getAqiValue())
+                                    .append("\n")
+                                    .append("Temperature Max: ")
+                                    .append(dailyWeather.get(i).getMaxTempC())
+                                    .append("°C / ")
+                                    .append(dailyWeather.get(i).getMaxTempF())
+                                    .append("°F \n")
+                                    .append("Temperature Min: ")
+                                    .append(dailyWeather.get(i).getMinTempC())
+                                    .append("°C / ").append(dailyWeather.get(i).getMinTempF())
+                                    .append("°F \n").append("Day Weather Id: ")
+                                    .append(dailyWeather.get(i).getSituationDay().getWeatherId())
+                                    .append("\n").append("Night Weather Id: ")
+                                    .append(dailyWeather.get(i).getSituationNight().getWeatherId())
+                                    .append("\n").append("Day Wind Direction: ")
+                                    .append(dailyWeather.get(i).getSituationDay().getWindDir())
+                                    .append("\n").append("Night Wind Direction: ")
+                                    .append(dailyWeather.get(i).getSituationNight().getWindDir())
+                                    .append("\n").append("Day Wind Level: ")
+                                    .append(dailyWeather.get(i).getSituationDay().getWindLevel())
+                                    .append("\n").append("Night Wind Level: ")
+                                    .append(dailyWeather.get(i).getSituationNight().getWindLevel())
+                                    .append("\n").append("Day Wind Speed: ")
+                                    .append(dailyWeather.get(i).getSituationDay().getWindSpeed())
+                                    .append("\n").append("Night Wind Speed: ")
+                                    .append(dailyWeather.get(i).getSituationNight().getWindSpeed())
+                                    .append("\n\n");
 //                        xửa lí adapter7
-                        String date = "Date: " + dateFormat.format(dailyWeather.get(i).getDateTimeStamp());
+                            String date = "Date: " + dateFormat.format(dailyWeather.get(i).getDateTimeStamp());
 
-                        String min = "Min: " + dailyWeather.get(i).getMinTempC() + " °C";
-                        String max = "Max: " + dailyWeather.get(i).getMaxTempC() + " °C";
-                        String sunset = "Sun set: " + timeFormat.format(dailyWeather.get(i).getSunSet());
-                        String sunrise = "Sun rise: " + timeFormat.format(dailyWeather.get(i).getSunRise());
+                            String min = "Min: " + dailyWeather.get(i).getMinTempC() + " °C";
+                            String max = "Max: " + dailyWeather.get(i).getMaxTempC() + " °C";
+                            String sunset = "Sun set: " + timeFormat.format(dailyWeather.get(i).getSunSet());
+                            String sunrise = "Sun rise: " + timeFormat.format(dailyWeather.get(i).getSunRise());
 
-                        int id = getIdWeather(dailyWeather.get(i).getSituationDay().getWeatherId());
-                        setImageWeather7days(id);
+                            int id = getIdWeather(dailyWeather.get(i).getSituationDay().getWeatherId());
+                            setImageWeather7days(id);
 
-Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
-                        list_7days.add(new Weather7(date, troi, min, max, sunset, sunrise, imageUrl));
+                            Log.d(TAG, dailyWeather.get(i).getMinTempC() + " °C");
+                            list_7days.add(new Weather7(date, troi, min, max, sunset, sunrise, imageUrl));
 
+                        }
+                        adapterWeather7.notifyDataSetChanged();
+                        Log.i("day", dailyInfoStringBuilder.toString());
+                    } catch (Exception e) {
+                        Log.e("HomeActivity", e.getLocalizedMessage());
                     }
-                    adapterWeather7.notifyDataSetChanged();
-                    Log.i("day", daily_info.toString());
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "get day weather failed"));
     }
@@ -894,7 +892,7 @@ Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
 
 // set statusbar
 
-    public void displayNotification(String text,String city,String weather) {
+    public void displayNotification(String text, String city, String weather) {
 
         Notification.Builder builder = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -916,6 +914,7 @@ Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
 
         createNotificationChannel();
     }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -925,7 +924,7 @@ Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            channel.setSound(null,null);
+            channel.setSound(null, null);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -933,6 +932,7 @@ Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     private Bitmap createBitmapFromString(String inputNumber) {
 
 //        Paint paint = new Paint();
@@ -956,9 +956,6 @@ Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
         canvas.drawText(inputNumber, textBounds.width() / 2 + 10, 70, textPaint);
         return bitmap;
     }
-
-
-
 
 
 }
