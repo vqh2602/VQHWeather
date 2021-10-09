@@ -103,8 +103,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     int imageUrl;
     private final int permissionRequestCode = 9999;
 
-    Handler handler = new Handler();
-    Runnable refresh ;
+    Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,16 +124,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // reset dữ liệu 15p / lần
 
-        refresh = new Runnable() {
-            public void run() {
-                // Do something
-                handler.postDelayed(refresh, 900000);
-            }
-        };
-        handler.post(refresh);
+        this.mHandler = new Handler();
+        m_Runnable.run();
 
     }
 
+    private final Runnable m_Runnable = new Runnable()
+    {
+        public void run()
+
+        {
+            Toast.makeText(HomeActivity.this,"Đang làm mới dữ liệu . . .",Toast.LENGTH_SHORT).show();
+            startGetWeathers();
+           HomeActivity.this.mHandler.postDelayed(m_Runnable,900000);
+
+        }
+
+    };
 
 
 
