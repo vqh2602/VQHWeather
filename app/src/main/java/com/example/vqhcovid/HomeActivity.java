@@ -654,7 +654,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     List<HourlyWeather> hourlyWeather = weatherStatus.getHourlyWeather();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
                     String weather_info_hours = "";
-                    for (int i = 0; i <= 24; i++) {
+                    for (int i = 0; i <= hourlyWeather.size(); i++) {
 
 //                            weather_info_hours+= dateFormat.format(hourlyWeather.get(i).getDateTimeStamp()) +" - "+
 //                                    (hourlyWeather.get(i).isDayNight() ? "Day" : "Night")+"\n"+
@@ -696,7 +696,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy ", Locale.getDefault());
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss ", Locale.getDefault());
                     StringBuilder daily_info = new StringBuilder();
-                    for (int i = 0; i < 7; i++) {
+                    for (int i = 0; i < dailyWeather.size(); i++) {
                         //FIXME string concat in loop
                         daily_info
                                 .append("Date: ")
