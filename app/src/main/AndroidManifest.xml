@@ -33,13 +33,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".weather_location_Activity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
         <activity android:name=".AboutActivity" /> <!-- tools:replace="android:appComponentFactory" -->
         <!-- android:appComponentFactory="android.support.v4.app.CoreComponentFactory"> -->
         <!-- push kit -->

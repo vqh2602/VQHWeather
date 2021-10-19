@@ -654,8 +654,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     List<HourlyWeather> hourlyWeather = weatherStatus.getHourlyWeather();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
                     String weather_info_hours = "";
-                    for (int i = 0; i < hourlyWeather.size(); i++) {
-
+                    list_24h.clear();
+                    try {
+                        for (int i = 0; i < hourlyWeather.size(); i++) {
 //                            weather_info_hours+= dateFormat.format(hourlyWeather.get(i).getDateTimeStamp()) +" - "+
 //                                    (hourlyWeather.get(i).isDayNight() ? "Day" : "Night")+"\n"+
 //                                    "Temperature: " + hourlyWeather.get(i).getTempC() + "°C / "+hourlyWeather.get(i).getTempF() +"°F \n"+
@@ -663,21 +664,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //                                    "Rain Probability: " + hourlyWeather.get(i).getRainprobability()+"\n"+
 //                                    "Weather Id: " +hourlyWeather.get(i).getWeatherId()+"\n\n";
 
-                        //xửa lí adapter24
-                        String time = "Time: " + dateFormat.format(hourlyWeather.get(i).getDateTimeStamp());
-                        String dayNight = hourlyWeather.get(i).isDayNight() ? "Day" : "Night";
-                        String temp = "Nhiệt độ: " + hourlyWeather.get(i).getTempC() + " °C";
-                        String rain = "Tỷ lệ mưa: " + hourlyWeather.get(i).getRainprobability() + " %";
-                        int urlImage;
-                        if (hourlyWeather.get(i).isDayNight()) {
-                            urlImage = R.raw.day;
-                        } else {
-                            urlImage = R.raw.night;
+                            //xửa lí adapter24
+                            String time = "Time: " + dateFormat.format(hourlyWeather.get(i).getDateTimeStamp());
+                            String dayNight = hourlyWeather.get(i).isDayNight() ? "Day" : "Night";
+                            String temp = "Nhiệt độ: " + hourlyWeather.get(i).getTempC() + " °C";
+                            String rain = "Tỷ lệ mưa: " + hourlyWeather.get(i).getRainprobability() + " %";
+                            int urlImage;
+                            if (hourlyWeather.get(i).isDayNight()) {
+                                urlImage = R.raw.day;
+                            } else {
+                                urlImage = R.raw.night;
+                            }
+
+                            list_24h.add(new Weather24(time, dayNight, temp, rain, urlImage));
+
                         }
-
-                        list_24h.add(new Weather24(time, dayNight, temp, rain, urlImage));
-
                     }
+                    catch (NullPointerException e){
+                        Log.i("hour_erro: ", String.valueOf(e));
+                    }
+
                     Adapterweather24.notifyDataSetChanged();
 
                     Log.i("hour", weather_info_hours);
@@ -696,68 +702,74 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy ", Locale.getDefault());
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss ", Locale.getDefault());
                     StringBuilder daily_info = new StringBuilder();
-                    for (int i = 0; i < dailyWeather.size(); i++) {
-                        //FIXME string concat in loop
-                        daily_info
-                                .append("Date: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getDateTimeStamp()))
-                                .append("\n")
-                                .append("Sun Rise: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getSunRise()))
-                                .append("\n")
-                                .append("Sun Set: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getSunSet()))
-                                .append("\n")
-                                .append("Moon Set: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getMoonSet()))
-                                .append("\n").append("Moon Rise: ")
-                                .append(dateFormat.format(dailyWeather.get(i).getMoonRise()))
-                                .append("\n").append("Moon Phase: ")
-                                .append(dailyWeather.get(i).getMoonphase())
-                                .append("\n")
-                                .append("Aqi Value: ")
-                                .append(dailyWeather.get(i).getAqiValue())
-                                .append("\n")
-                                .append("Temperature Max: ")
-                                .append(dailyWeather.get(i).getMaxTempC())
-                                .append("°C / ")
-                                .append(dailyWeather.get(i).getMaxTempF())
-                                .append("°F \n")
-                                .append("Temperature Min: ")
-                                .append(dailyWeather.get(i).getMinTempC())
-                                .append("°C / ").append(dailyWeather.get(i).getMinTempF())
-                                .append("°F \n").append("Day Weather Id: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWeatherId())
-                                .append("\n").append("Night Weather Id: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWeatherId())
-                                .append("\n").append("Day Wind Direction: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindDir())
-                                .append("\n").append("Night Wind Direction: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindDir())
-                                .append("\n").append("Day Wind Level: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindLevel())
-                                .append("\n").append("Night Wind Level: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindLevel())
-                                .append("\n").append("Day Wind Speed: ")
-                                .append(dailyWeather.get(i).getSituationDay().getWindSpeed())
-                                .append("\n").append("Night Wind Speed: ")
-                                .append(dailyWeather.get(i).getSituationNight().getWindSpeed())
-                                .append("\n\n");
+                    list_7days.clear();
+                    try {
+                        for (int i = 0; i < dailyWeather.size(); i++) {
+                            //FIXME string concat in loop
+//                        daily_info
+//                                .append("Date: ")
+//                                .append(dateFormat.format(dailyWeather.get(i).getDateTimeStamp()))
+//                                .append("\n")
+//                                .append("Sun Rise: ")
+//                                .append(dateFormat.format(dailyWeather.get(i).getSunRise()))
+//                                .append("\n")
+//                                .append("Sun Set: ")
+//                                .append(dateFormat.format(dailyWeather.get(i).getSunSet()))
+//                                .append("\n")
+//                                .append("Moon Set: ")
+//                                .append(dateFormat.format(dailyWeather.get(i).getMoonSet()))
+//                                .append("\n").append("Moon Rise: ")
+//                                .append(dateFormat.format(dailyWeather.get(i).getMoonRise()))
+//                                .append("\n").append("Moon Phase: ")
+//                                .append(dailyWeather.get(i).getMoonphase())
+//                                .append("\n")
+//                                .append("Aqi Value: ")
+//                                .append(dailyWeather.get(i).getAqiValue())
+//                                .append("\n")
+//                                .append("Temperature Max: ")
+//                                .append(dailyWeather.get(i).getMaxTempC())
+//                                .append("°C / ")
+//                                .append(dailyWeather.get(i).getMaxTempF())
+//                                .append("°F \n")
+//                                .append("Temperature Min: ")
+//                                .append(dailyWeather.get(i).getMinTempC())
+//                                .append("°C / ").append(dailyWeather.get(i).getMinTempF())
+//                                .append("°F \n").append("Day Weather Id: ")
+//                                .append(dailyWeather.get(i).getSituationDay().getWeatherId())
+//                                .append("\n").append("Night Weather Id: ")
+//                                .append(dailyWeather.get(i).getSituationNight().getWeatherId())
+//                                .append("\n").append("Day Wind Direction: ")
+//                                .append(dailyWeather.get(i).getSituationDay().getWindDir())
+//                                .append("\n").append("Night Wind Direction: ")
+//                                .append(dailyWeather.get(i).getSituationNight().getWindDir())
+//                                .append("\n").append("Day Wind Level: ")
+//                                .append(dailyWeather.get(i).getSituationDay().getWindLevel())
+//                                .append("\n").append("Night Wind Level: ")
+//                                .append(dailyWeather.get(i).getSituationNight().getWindLevel())
+//                                .append("\n").append("Day Wind Speed: ")
+//                                .append(dailyWeather.get(i).getSituationDay().getWindSpeed())
+//                                .append("\n").append("Night Wind Speed: ")
+//                                .append(dailyWeather.get(i).getSituationNight().getWindSpeed())
+//                                .append("\n\n");
 //                        xửa lí adapter7
-                        String date = "Date: " + dateFormat.format(dailyWeather.get(i).getDateTimeStamp());
+                            String date = "Date: " + dateFormat.format(dailyWeather.get(i).getDateTimeStamp());
 
-                        String min = "Min: " + dailyWeather.get(i).getMinTempC() + " °C";
-                        String max = "Max: " + dailyWeather.get(i).getMaxTempC() + " °C";
-                        String sunset = "Sun set: " + timeFormat.format(dailyWeather.get(i).getSunSet());
-                        String sunrise = "Sun rise: " + timeFormat.format(dailyWeather.get(i).getSunRise());
+                            String min = "Min: " + dailyWeather.get(i).getMinTempC() + " °C";
+                            String max = "Max: " + dailyWeather.get(i).getMaxTempC() + " °C";
+                            String sunset = "Sun set: " + timeFormat.format(dailyWeather.get(i).getSunSet());
+                            String sunrise = "Sun rise: " + timeFormat.format(dailyWeather.get(i).getSunRise());
 
-                        int id = getIdWeather(dailyWeather.get(i).getSituationDay().getWeatherId());
-                        setImageWeather7days(id);
+                            int id = getIdWeather(dailyWeather.get(i).getSituationDay().getWeatherId());
+                            setImageWeather7days(id);
 
-Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
-                        list_7days.add(new Weather7(date, troi, min, max, sunset, sunrise, imageUrl));
+                            Log.d(TAG,dailyWeather.get(i).getMinTempC() + " °C");
+                            list_7days.add(new Weather7(date, troi, min, max, sunset, sunrise, imageUrl));
 
+                        }
+                    } catch (NullPointerException e){
+                        Log.i("hour_erro: ", String.valueOf(e));
                     }
+
                     adapterWeather7.notifyDataSetChanged();
                     Log.i("day", daily_info.toString());
                 })

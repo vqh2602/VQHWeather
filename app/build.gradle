@@ -10,27 +10,27 @@ android {
         applicationId "com.example.vqhcovid"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 6
-        versionName "1.1.6"
+        versionCode 8
+        versionName "1.1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
 
-//    signingConfigs {
-//        config {
-//            storeFile file('D:/Du Lieu/project android/VQHWeather/keystore')
-//            storePassword 'vuongquanghuy'
-//            keyPassword 'vuongquanghuy'
-//            keyAlias 'vqh_alias'
-//        }
-//    }
+    signingConfigs {
+        config {
+            storeFile file('D:/Du Lieu/project android/VQHWeather/keystore')
+            storePassword 'vuongquanghuy'
+            keyPassword 'vuongquanghuy'
+            keyAlias 'vqh_alias'
+        }
+    }
     buildTypes {
-//        debug {
-//            signingConfig signingConfigs.config
-//        }
+        debug {
+            signingConfig signingConfigs.config
+        }
         release {
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

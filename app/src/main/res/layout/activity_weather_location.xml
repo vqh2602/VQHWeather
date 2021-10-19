@@ -6,14 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".weather_location_Activity">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/weather_bg_local"
+        android:scaleType="centerCrop"/>
+
     <EditText
         android:id="@+id/editText_loca"
         android:layout_width="301dp"
         android:layout_height="47dp"
         android:ems="10"
+        android:hint="Nhập tên thành phố bằng tiêng anh"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="Nhập tên quốc gia "
         app:layout_constraintEnd_toStartOf="@+id/image_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,19 +47,90 @@
 
     <ListView
         android:id="@+id/listView_local"
-        android:layout_width="387dp"
-        android:layout_height="610dp"
+        android:layout_width="match_parent"
+        android:layout_height="632dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+    </ListView>
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ví dụ: VietNam, China, ThaiLan . . ."
+        android:text="ví dụ: Hanoi, Bangkok, London . . ."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_loca" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imageViewwtid"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="70dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/listView_local"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loadding" />
+
+    <TextView
+        android:id="@+id/textViewweatherid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Loadding..."
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewwtid" />
+
+    <TextView
+        android:id="@+id/textView_nhietdo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="0°"
+        android:textColor="@color/white"
+        android:textSize="150sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_dof"
+        android:layout_width="120dp"
+        android:layout_height="125dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textView_timezone"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_weight="1"
+            android:text="Time Zone: " />
+
+        <TextView
+            android:id="@+id/textView_nhietdo_f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3.5"
+            android:gravity="center"
+            android:text="0°F"
+            android:textSize="45sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

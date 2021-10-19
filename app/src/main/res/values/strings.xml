@@ -2,23 +2,12 @@
     <string name="app_name">VQH Weather</string>
     <string name="open_toolbar">Open menu</string>
     <string name="close_toolbar">Close menu</string>
-    <string name="onha_covid">
-        Ở nhà Hầu hết mọi người mắc COVID-19 bị bệnh nhẹ và có thể hồi phục tại nhà mà không cần chăm sóc y tế. Đừng rời khỏi nhà của quý vị, ngoại trừ khi cần sự chăm sóc y tế. Đừng đến các khu vực công cộng.
-        Chăm sóc bản thân. Nghỉ ngơi và uống nước thường xuyên. Dùng các loại thuốc không cần kê toa, chẳng hạn như acetaminophen, để giúp quý vị cảm thấy tốt hơn.
-        Giữ liên lạc với bác sĩ của quý vị. Gọi điện trước khi đến khám bệnh. Phải tìm sự chăm sóc y tế nếu quý vị bị khó thở, hoặc có các dấu hiệu cảnh báo cấp cứu, hoặc nếu quý vị nghĩ đó là một trường hợp cần cấp cứu.
-        Tránh dùng giao thông công cộng, đi chung xe hoặc taxi.
-    </string>
-    <string name="cachli_covid">
-        Cố gắng ở trong phòng riêng và tránh xa người khác và thú cưng trong nhà quý vị càng nhiều càng tốt. Nếu có thể, quý vị nên sử dụng phòng vệ sinh riêng. Nếu quý vị cần ở gần người khác hoặc động vật trong hoặc ngoài nhà, hãy đeo khẩu trang.
-        Thông báo chonhững người liên hệ thân thiết với quý vị biết rằng họ có thể đã phơi nhiễm với COVID-19. Người nhiễm bệnh có thể lây lan COVID-19 bắt đầu 48 giờ (hoặc 2 ngày) trước khi người đó có bất kỳ triệu chứng nào hoặc có xét nghiệm dương tính. Bằng việc thông báo cho những người liên hệ thân thiết với quý vị biết rằng họ có thể đã phơi nhiễm với COVID-19, quý vị đang giúp bảo vệ mọi người.
-    </string>
-    <string name="trieuchung_covid">
-        Các triệu chứng của COVID-19 bao gồm sốt, ho hoặc các triệu chứng khác.
-        Thực hiện theo các hướng dẫn chăm sóc từ nhà cung cấp dịch vụ chăm sóc sức khỏe và sở y tế địa phương. Cơ quan y tế địa phương sẽ đưa ra hướng dẫn cách kiểm tra các triệu chứng của quý vị và báo cáo thông tin.
-    </string>
-    <string name="khautrang_covid">
-        Quý vị nên đeo khẩu trang che mũi và miệng nếu quý vị phải ở gần người khác hoặc động vật kể cả thú cưng (dù là ở trong nhà).Che miệng và mũi bằng khăn giấy khi quý vị ho hoặc hắt hơi.
-        Vất khăn giấy đã sử dụng vào thùng rác có lót bao rác.
-        Rửa tay ngay lập tức bằng xà phòng và nước trong ít nhất 20 giây. Nếu không có xà phòng và nước, hãy làm sạch tay bằng dung dịch sát trùng tay có chứa ít nhất 60% cồn.Rửa tay thường xuyên bằng xà phòng và nước trong ít nhất 20 giây. Điều này đặc biệt quan trọng sau khi xì mũi, ho hoặc hắt hơi; đi vào phòng vệ sinh; và trước khi ăn hoặc chuẩn bị thức ăn.Không dùng chung bát đĩa, ly uống nước, cốc, dụng cụ ăn uống, khăn hoặc bộ trải giường với người khác trong nhà quý vị.Làm sạch tất cả các bề mặt "hay chạm vào" hàng ngày
-    </string>
+    <string name="aboutapp">Ứng dụng là một sản phẩm nhỏ của tớ trong quá trình học tập và
+    phát triển hướng tới mục đích cộng đồng. Tuy nhiên trong quá trình phát triển ứng dụng
+còn có một số vấn đề, lỗi vặt. Và mình vẫn cố gắng sửa chữa và khắc phục. Cảm ơn bạn đã sử dụng ứng dụng này!.</string>
+    <string name="phienban"><u>Phiên bản: </u></string>
+    <string name="trogiup"><u>Trợ giúp</u></string>
+    <string name="chinhsachbaomat"><u>Chính sách bảo mật</u></string>
+    <string name="dieukhoan"><u>Điều khoản và điều kiện</u></string>
+    <string name="website"><u>Website nhà phát triển</u></string>
 </resources>

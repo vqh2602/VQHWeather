@@ -24,4 +24,6 @@
     <color name="statusbar_blue">#165dd9</color>
     <color name="statusbar_green">#b7bba4</color>
     <color name="statusbar_puple">#939ebe</color>
+    <color name="statusbar_local">#5e4984</color>
+    <color name="statusbar_about">#5d01a3</color>
 </resources>

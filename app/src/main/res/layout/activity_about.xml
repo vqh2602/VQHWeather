@@ -8,14 +8,21 @@
     tools:context=".AboutActivity">
 
 
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  android:src="@drawable/bg_about"
+    android:scaleType="centerCrop"></ImageView>
+
   <TextView
       android:id="@+id/textView34"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="40dp"
       android:fontFamily="sans-serif-black"
-      android:text="VQHCovid"
-      android:textSize="20sp"
+      android:text="VQH Weather"
+      android:textSize="40sp"
+      android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.498"
       app:layout_constraintStart_toStartOf="parent"
@@ -31,32 +38,100 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-  <TextView
-      android:id="@+id/textView35"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:onClick="onClickcsbm"
-      android:text="Chính Sách Bảo Mật"
-      android:textColor="@color/purple_700"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView36" />
+  <!--  <TextView-->
+<!--      android:id="@+id/textView8"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginTop="52dp"-->
+<!--      android:text="Tiếng Anh Cho Bé"-->
+<!--      android:textColor="@color/white"-->
+<!--      android:textSize="30sp"-->
+<!--      android:textStyle="bold"-->
+<!--      app:layout_constraintEnd_toEndOf="parent"-->
+<!--      app:layout_constraintStart_toStartOf="parent"-->
+<!--      app:layout_constraintTop_toTopOf="parent"-->
+<!--      tools:ignore="MissingConstraints" />-->
+
+<!--  <TextView-->
+<!--      android:id="@+id/textView9"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginTop="16dp"-->
+<!--      android:text="@string/aboutapp"-->
+<!--      android:paddingLeft="20dp"-->
+<!--      android:paddingRight="20dp"-->
+<!--      android:textColor="@color/white"-->
+<!--      app:layout_constraintEnd_toEndOf="@+id/textView8"-->
+<!--      app:layout_constraintStart_toStartOf="@+id/textView8"-->
+<!--      app:layout_constraintTop_toBottomOf="@+id/textView8" />-->
 
   <TextView
-      android:id="@+id/textView_website"
+      android:id="@+id/textView9"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:paddingLeft="20dp"
+      android:paddingRight="20dp"
+      android:text="@string/aboutapp"
+      android:textColor="@color/white"
+      app:layout_constraintTop_toBottomOf="@+id/textView36"
+      tools:layout_editor_absoluteX="0dp"
+      tools:ignore="MissingConstraints" />
+
+  <TextView
+      android:id="@+id/textView_phienban"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
-      android:onClick="onClickweb"
-      android:text="Truy cập website"
-      android:textColor="@color/purple_700"
-      android:textSize="15sp"
+      android:text="@string/phienban"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView35" />
+      app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+  <TextView
+      android:id="@+id/textView_trogiup"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="@string/website"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      android:onClick="onClickweb"
+      app:layout_constraintEnd_toEndOf="@+id/textView_phienban"
+      app:layout_constraintStart_toStartOf="@+id/textView_phienban"
+      app:layout_constraintTop_toBottomOf="@+id/textView_phienban" />
+
+
+<!--  <TextView-->
+<!--      android:id="@+id/textView35"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginTop="32dp"-->
+<!--      android:onClick="onClickcsbm"-->
+<!--      android:text="Chính Sách Bảo Mật"-->
+<!--      android:textColor="@color/purple_700"-->
+<!--      android:textSize="15sp"-->
+<!--      app:layout_constraintEnd_toEndOf="parent"-->
+<!--      app:layout_constraintHorizontal_bias="0.498"-->
+<!--      app:layout_constraintStart_toStartOf="parent"-->
+<!--      app:layout_constraintTop_toBottomOf="@+id/textView36" />-->
+
+<!--  <TextView-->
+<!--      android:id="@+id/textView_website"-->
+<!--      android:layout_width="wrap_content"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      android:layout_marginTop="16dp"-->
+<!--      android:onClick="onClickweb"-->
+<!--      android:text="Truy cập website"-->
+<!--      android:textColor="@color/purple_700"-->
+<!--      android:textSize="15sp"-->
+<!--      app:layout_constraintEnd_toEndOf="parent"-->
+<!--      app:layout_constraintHorizontal_bias="0.498"-->
+<!--      app:layout_constraintStart_toStartOf="parent"-->
+<!--      app:layout_constraintTop_toBottomOf="@+id/textView35" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
